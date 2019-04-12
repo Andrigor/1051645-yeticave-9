@@ -1,7 +1,7 @@
 # Личный проект «YetiCave»
 
 * Студент: [Игорь Андрианов](https://up.htmlacademy.ru/php/9/user/1051645).
-* Наставник: [Евгений Самойенко](https://htmlacademy.ru/profile/id999539).
+* Наставник: [Евгений Самойленко](https://htmlacademy.ru/profile/id999539).
 
 ---
 

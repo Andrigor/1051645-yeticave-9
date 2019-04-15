@@ -3,8 +3,6 @@ $is_auth = rand(0, 1);
 
 $user_name = 'Igor'; // укажите здесь ваше имя
 $categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
-$cur_cat = 0;
-$qty_cat = count ($categories);
 $advert = [
     [
         'name' => '2014 Rossignol District Snowboard',
@@ -97,12 +95,11 @@ $advert = [
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
         <ul class="promo__list">
             <!--заполните этот список из массива категорий-->
-            <?php while ($cur_cat < $qty_cat): ?>
+            <?php foreach ($categories as $item): ?>
             <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="pages/all-lots.html"><?=$categories[$cur_cat];?></a>
+                <a class="promo__link" href="pages/all-lots.html"><?=$item;?></a>
             </li>
-            <?php $cur_cat++; ?>
-            <?php endwhile; ?>
+            <?php endforeach; ?>
         </ul>
     </section>
     <section class="lots">
@@ -140,14 +137,11 @@ $advert = [
     <nav class="nav">
         <ul class="nav__list container">
             <!--заполните этот список из массива категорий-->
-            <?php
-            $cur_cat = 0;
-            while ($cur_cat < $qty_cat): ?>
+            <?php foreach ($categories as $item): ?>
             <li class="nav__item">
-                <a href="pages/all-lots.html"><?=$categories[$cur_cat];?></a>
+                <a href="pages/all-lots.html"><?=$item;?></a>
             </li>
-            <?php $cur_cat++; ?>
-            <?php endwhile; ?>
+            <?php endforeach; ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">

@@ -41,6 +41,14 @@ $advert = [
         'pic' => 'img/lot-6.jpg'
     ]
 ];
+function format_price ($cost) {
+    $form_cost = ceil($cost);
+    if ($form_cost > 1000) {
+        $form_cost = number_format($form_cost, 0, '', ' ');
+    }
+    $form_cost = $form_cost . " " . "&#8381";
+    return $form_cost;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -119,7 +127,7 @@ $advert = [
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?=$item['price']; ?><b class="rub">р</b></span>
+                            <span class="lot__cost"><?=format_price($item['price']); ?><!--<b class="rub">р</b>--></span>
                         </div>
                         <div class="lot__timer timer">
                             12:23

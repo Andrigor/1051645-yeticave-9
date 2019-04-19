@@ -67,6 +67,14 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
+function Show_time(){
+    $cur_time = time();
+    $midnight_time = strtotime('tomorrow');
+    $diff_time = date('H:i', $midnight_time - $cur_time);
+
+    Return $diff_time;
+}
+
 $content = include_template('index.php', ['categories' => $categories, 'advert' => $advert]);
 
 $page = include_template('layout.php', [

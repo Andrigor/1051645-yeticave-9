@@ -10,6 +10,16 @@ CREATE TABLE categories (
     symbol CHAR(64)
 );
 
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    email CHAR(128),
+    name CHAR(255),
+    password CHAR(64),
+    avatar_path CHAR(255),
+    contact TEXT
+);
+
 CREATE TABLE lot (
     id INT AUTO_INCREMENT PRIMARY KEY,
     category_id INT,
@@ -22,7 +32,9 @@ CREATE TABLE lot (
     start_price INT,
     closed_at DATE,
     step INT,
-    FOREIGN KEY (category_id) REFERENCES categories(id)
+    FOREIGN KEY (category_id) REFERENCES categories(id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (user_id_win) REFERENCES users(id)
 );
 
 CREATE TABLE bet (
@@ -31,35 +43,12 @@ CREATE TABLE bet (
     lot_id INT,
     bet_price INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (lot_id) REFERENCES lot(id)
-);
-
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    lot_id INT,
-    bet_id INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    email CHAR(128),
-    name CHAR(255),
-    password CHAR(64),
-    avatar_path CHAR(255),
-    contact TEXT,
     FOREIGN KEY (lot_id) REFERENCES lot(id),
-    FOREIGN KEY (bet_id) REFERENCES bet(id)
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
-
-ALTER TABLE lot
-ADD FOREIGN KEY (user_id) REFERENCES users(id);
-
-ALTER TABLE lot
-ADD FOREIGN KEY (user_id_win) REFERENCES users(id);
-
-ALTER TABLE bet
-ADD FOREIGN KEY (user_id) REFERENCES users(id);
-
 
 CREATE UNIQUE INDEX email ON users(email);
 
 CREATE INDEX lot_title ON lot(title);
 
-CREATE INDEX lot_desc ON lot(description)
+CREATE INDEX lot_desc ON lot(description);

@@ -2,90 +2,59 @@
 $is_auth = rand(0, 1);
 $user_name = 'Igor'; // укажите здесь ваше имя
 $title = 'Главная';
-$categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
-$advert = [
-    [
-        'name' => '2014 Rossignol District Snowboard',
-        'category' => 'Доски и лыжи',
-        'price' => 10999,
-        'pic' => 'img/lot-1.jpg'
-    ],
-    [
-        'name' => 'DC Ply Mens 2016/2017 Snowboard',
-        'category' => 'Доски и лыжи',
-        'price' => 159999,
-        'pic' => 'img/lot-2.jpg'
-    ],
-    [
-        'name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
-        'category' => 'Крепления',
-        'price' => 8000,
-        'pic' => 'img/lot-3.jpg'
-    ],
-    [
-        'name' => 'Ботинки для сноуборда DC Mutiny Charocal',
-        'category' => 'Ботинки',
-        'price' => 10999,
-        'pic' => 'img/lot-4.jpg'
-    ],
-    [
-        'name' => 'Куртка для сноуборда DC Mutiny Charocal',
-        'category' => 'Одежда',
-        'price' => 7500,
-        'pic' => 'img/lot-5.jpg'
-    ],
-    [
-        'name' => 'Маска Oakley Canopy',
-        'category' => 'Разное',
-        'price' => 5400,
-        'pic' => 'img/lot-6.jpg'
-    ]
-];
-function format_price ($cost) {
-    $form_cost = ceil($cost);
-    if ($form_cost > 1000) {
-        $form_cost = number_format($form_cost, 0, '', ' ');
+
+require_once ('functions.php');
+
+// Подключение к базе данных
+$link = mysqli_connect("localhost", "Igor", "", "yeticave1");
+mysqli_set_charset($link, "utf8");
+
+// Проверка подключения
+if ($link == false) {
+    print("Ошибка подключения: " . mysqli_connect_error());
+}
+else {
+    //print("Соединение установлено");
+    // Запрос на получение списка категорий
+    $sql = "SELECT id, name, symbol FROM categories";
+
+    // Выполняем запрос и получаем резуьтат
+    $result = mysqli_query($link, $sql);
+
+    // Запрос выполнен успешно
+    if ($result) {
+        // Полуаем все категории в виде двумерного массива
+        $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
-    $form_cost = $form_cost . " " . "&#8381";
-    return $form_cost;
-}
-
-function include_template($name, array $data = []) {
-    $name = 'templates/' . $name;
-    $result = '';
-
-    if (!is_readable($name)) {
-        return $result;
+    else {
+        // Получить текст поседней ошибки
+        $error = mysqli_error($link);
+        print ("Ошибка подключения: " . $error);
     }
+    // Запрос на показ объявлений
+    $sql = "SELECT category_id, title, path, start_price, name FROM lot l "
+        . "JOIN categories c on l.category_id = c.id "
+        . "WHERE user_id_win IS NULL "
+        . "ORDER BY created_at DESC LIMIT 6";
 
-    ob_start();
-    extract($data);
-    require $name;
+    // Делаем запрос и проверяем
+    if ($res = mysqli_query($link, $sql)) {
+        $advert = mysqli_fetch_all($res, MYSQLI_ASSOC);
 
-    $result = ob_get_clean();
-
-    return $result;
+        // Передаем в основной шаблон результат выполнения
+        $content = include_template('index.php', ['categories' => $categories, 'advert' => $advert]);
+    }
+    else {
+        $error = mysqli_error($link);
+        print ("Ошибка подключения: " . $error);
+        }
 }
-
-function Show_time(){
-    $cur_time = time();
-    $midnight_time = strtotime('tomorrow');
-    $diff_time = date('H:i', $midnight_time - $cur_time);
-
-    Return $diff_time;
-}
-
-$content = include_template('index.php', ['categories' => $categories, 'advert' => $advert]);
-
-$page = include_template('layout.php', [
+// Подключаем layout
+print(include_template('layout.php', [
     'title' => $title,
     'content' => $content,
     'is_auth' => $is_auth,
     'user_name' => $user_name,
     'categories' => $categories
-]);
-
-print($page);
-
-?>
+]));
 

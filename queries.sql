@@ -14,9 +14,9 @@ VALUES
 
 INSERT INTO users (email, name, password, avatar_path, contact)
 VALUES
-    ('vasyarogov@yandex.ru', 'Vasya Rogov', '12345', 'C:/Users/Vasya/Pictures/123.jpg', 'Moscow, Tverskaya str.'),
-    ('ivanfrolov@google.com', 'Ivan Frolov', 'hard_day', 'C:/Users/Ivan/Pictures/rrr.jpg', 'Tver, Leninskiy pr.'),
-    ('kolyapetrov@gmail.ru', 'Kolya Petrov', 'table123', 'C:/Users/Kolya/Pictures/Me.jpg', 'Kolomna, Kozlova str.');
+    ('vasyarogov@yandex.ru', 'Vasya Rogov', '3627909A29C31381A071EC27F7C9CA97726182AED29A7DDD2E54353322CFB30ABB9E3A6DF2AC2C20FE23436311D678564D0C8D305930575F60E2D3D048184D79', 'C:/Users/Vasya/Pictures/123.jpg', 'Moscow, Tverskaya str.'),
+    ('ivanfrolov@google.com', 'Ivan Frolov', 'D3F7EDF14BF629708A2C58EC9ECD5EDE2B57372BB78852C60DE59E4631598F3BB8401B56771D306636B64AC0E62319405809FC89C31358F8FB26BDBB54E8CE72', 'C:/Users/Ivan/Pictures/rrr.jpg', 'Tver, Leninskiy pr.'),
+    ('kolyapetrov@gmail.ru', 'Kolya Petrov', '0DCA9D45AFA2020153D7AA2EA09D6D98BE169677D876A96476993AC0A32B77F9E14A7A54CCF4A11D8CFBE48C5AD243BD172568E40588256E165ABB06CBB42A90', 'C:/Users/Kolya/Pictures/Me.jpg', 'Kolomna, Kozlova str.');
 
 -- Добавление записей в таблицу "lot"
 

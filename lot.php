@@ -1,11 +1,15 @@
 <?php
-date_default_timezone_set('Europe/Moscow');
-$is_auth = rand(0, 1);
-$user_name = 'Igor'; // укажите здесь ваше имя
-$title = 'Главная';
 
 require_once('functions.php');
 
+// Проверка параметра запроса
+if (isset($_GET['id']) AND !empty($_GET['id'])) {
+    $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+} else {
+    http_response_code(404);
+    print('<h1>404 Ошибка параметра запроса</h1>');
+    die();
+}
 // Подключение к базе данных
 $link = mysqli_connect("localhost", "Igor", "", "yeticave1");
 mysqli_set_charset($link, "utf8");
@@ -26,33 +30,27 @@ if ($link == false) {
         // Получаем все категории в виде двумерного массива
         $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
     } else {
-        // Получить текст поседней ошибки
+        // Получить текст последней ошибки
         $error = mysqli_error($link);
         print ("Ошибка подключения: " . $error);
     }
-    // Запрос на показ объявлений
-    $sql = "SELECT l.id, category_id, title, path, start_price, name FROM lot l "
+    // Запрос на показ объявления
+    $sql = "SELECT title, description, path, start_price, name FROM lot l "
         . "JOIN categories c on l.category_id = c.id "
-        . "WHERE user_id_win IS NULL "
-        . "ORDER BY created_at DESC LIMIT 6";
+        . "WHERE l.id = $id";
 
     // Делаем запрос и проверяем
     if ($res = mysqli_query($link, $sql)) {
         $advert = mysqli_fetch_all($res, MYSQLI_ASSOC);
-
+        if (empty($advert)) {
+            http_response_code(404);
+            print('<h1>404 Ошибка: такой записи нет в БД</h1>');
+            die();
+        }
         // Передаем в основной шаблон результат выполнения
-        $content = include_template('index.php', ['categories' => $categories, 'advert' => $advert]);
+        print(include_template('lottemp.php', ['categories' => $categories, 'advert' => $advert]));
     } else {
         $error = mysqli_error($link);
         print ("Ошибка подключения: " . $error);
     }
-}
-// Подключаем layout
-print(include_template('layout.php', [
-    'title' => $title,
-    'content' => $content,
-    'is_auth' => $is_auth,
-    'user_name' => $user_name,
-    'categories' => $categories
-]));
-
+};

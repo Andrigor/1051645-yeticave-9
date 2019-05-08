@@ -2,59 +2,89 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?= $title ?></title>
+    <title>DC Ply Mens 2016/2017 Snowboard</title>
     <link href="../css/normalize.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
+
 <div class="page-wrapper">
 
     <header class="main-header">
         <div class="main-header__container container">
             <h1 class="visually-hidden">YetiCave</h1>
-            <a class="main-header__logo">
+            <a class="main-header__logo" href="index.html">
                 <img src="../img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
             </a>
             <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru" autocomplete="off">
                 <input type="search" name="search" placeholder="Поиск лота">
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
-            <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
-
+            <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
             <nav class="user-menu">
-
-                <?php if ($is_auth == 1): ?>
-                    <div class="user-menu__logged">
-                        <p><?= $user_name; ?></p>
-                        <a class="user-menu__bets" href="pages/my-bets.html">Мои ставки</a>
-                        <a class="user-menu__logout" href="#">Выход</a>
-                    </div>
-                <?php else: ?>
-                    <ul class="user-menu__list">
-                        <li class="user-menu__item">
-                            <a href="#">Регистрация</a>
-                        </li>
-                        <li class="user-menu__item">
-                            <a href="#">Вход</a>
-                        </li>
-                    </ul>
-                <?php endif; ?>
-                <!-- здесь должен быть PHP код для показа меню и данных пользователя -->
-
+                <ul class="user-menu__list">
+                    <li class="user-menu__item">
+                        <a href="sign-up.html">Регистрация</a>
+                    </li>
+                    <li class="user-menu__item">
+                        <a href="login.html">Вход</a>
+                    </li>
+                </ul>
             </nav>
         </div>
     </header>
 
-    <main class="container"><?= $content ?></main>
+    <main>
+        <nav class="nav">
+            <ul class="nav__list container">
+                <?php foreach ($categories as $item): ?>
+                    <li class="nav__item">
+                        <a href="all-lots.html"><?= htmlspecialchars($item['name']); ?></a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </nav>
+        <section class="lot-item container">
+            <?php foreach ($advert as $key => $item): ?>
+                <h2><?= $item['title']; ?></h2>
+                <div class="lot-item__content">
+                    <div class="lot-item__left">
+                        <div class="lot-item__image">
+                            <img src="<?= htmlspecialchars($item['path']); ?>" width="730" height="548" alt="Сноуборд">
+                        </div>
+                        <p class="lot-item__category">Категория: <span><?= htmlspecialchars($item['name']); ?></span>
+                        </p>
+                        <p class="lot-item__description"><?= htmlspecialchars($item['description']); ?></p>
+                    </div>
+                    <div class="lot-item__right">
+                        <div class="lot-item__state">
+                            <div class="lot-item__timer timer <?php if (Show_time() <= 1): ?>timer--finishing <?php endif ?>">
+                                <?= Show_time() ?>
+                            </div>
+                            <div class="lot-item__cost-state">
+                                <div class="lot-item__rate">
+                                    <span class="lot-item__amount">Текущая цена</span>
+                                    <span class="lot-item__cost"><?= format_price(htmlspecialchars($item['start_price'])); ?></span>
+                                </div>
+                                <div class="lot-item__min-cost">
+                                    Мин. ставка <span>12 000 р</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </section>
+    </main>
+
 </div>
 
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <!--заполните этот список из массива категорий-->
             <?php foreach ($categories as $item): ?>
                 <li class="nav__item">
-                    <a href="pages/all-lots.html"><?= $item['name']; ?></a>
+                    <a href="all-lots.html"><?= htmlspecialchars($item['name']); ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -117,7 +147,5 @@
     </div>
 </footer>
 
-<script src="flatpickr.js"></script>
-<script src="script.js"></script>
 </body>
 </html>

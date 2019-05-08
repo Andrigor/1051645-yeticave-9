@@ -2,8 +2,9 @@
 
 require_once ('functions.php');
 
-if (isset($_GET['id']) AND empty(!$_GET['id'])) {
-    $id = $_GET['id'];
+// Проверка параметра запроса
+if (isset($_GET['id']) AND !empty($_GET['id'])) {
+    $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 }
 else {
     http_response_code(404);
@@ -32,7 +33,7 @@ else {
         $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
     else {
-        // Получить текст поседней ошибки
+        // Получить текст последней ошибки
         $error = mysqli_error($link);
         print ("Ошибка подключения: " . $error);
     }

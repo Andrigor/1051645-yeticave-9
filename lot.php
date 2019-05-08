@@ -1,12 +1,11 @@
 <?php
 
-require_once ('functions.php');
+require_once('functions.php');
 
 // Проверка параметра запроса
 if (isset($_GET['id']) AND !empty($_GET['id'])) {
     $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
-}
-else {
+} else {
     http_response_code(404);
     print('<h1>404 Ошибка параметра запроса</h1>');
     die();
@@ -18,8 +17,7 @@ mysqli_set_charset($link, "utf8");
 // Проверка подключения
 if ($link == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
-}
-else {
+} else {
     //print("Соединение установлено");
     // Запрос на получение списка категорий
     $sql = "SELECT id, name, symbol FROM categories";
@@ -31,8 +29,7 @@ else {
     if ($result) {
         // Получаем все категории в виде двумерного массива
         $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-    else {
+    } else {
         // Получить текст последней ошибки
         $error = mysqli_error($link);
         print ("Ошибка подключения: " . $error);
@@ -52,8 +49,7 @@ else {
         }
         // Передаем в основной шаблон результат выполнения
         print(include_template('lottemp.php', ['categories' => $categories, 'advert' => $advert]));
-    }
-    else {
+    } else {
         $error = mysqli_error($link);
         print ("Ошибка подключения: " . $error);
     }

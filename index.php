@@ -4,7 +4,7 @@ $is_auth = rand(0, 1);
 $user_name = 'Igor'; // укажите здесь ваше имя
 $title = 'Главная';
 
-require_once ('functions.php');
+require_once('functions.php');
 
 // Подключение к базе данных
 $link = mysqli_connect("localhost", "Igor", "", "yeticave1");
@@ -13,8 +13,7 @@ mysqli_set_charset($link, "utf8");
 // Проверка подключения
 if ($link == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
-}
-else {
+} else {
     //print("Соединение установлено");
     // Запрос на получение списка категорий
     $sql = "SELECT id, name, symbol FROM categories";
@@ -26,8 +25,7 @@ else {
     if ($result) {
         // Получаем все категории в виде двумерного массива
         $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-    else {
+    } else {
         // Получить текст поседней ошибки
         $error = mysqli_error($link);
         print ("Ошибка подключения: " . $error);
@@ -44,11 +42,10 @@ else {
 
         // Передаем в основной шаблон результат выполнения
         $content = include_template('index.php', ['categories' => $categories, 'advert' => $advert]);
-    }
-    else {
+    } else {
         $error = mysqli_error($link);
         print ("Ошибка подключения: " . $error);
-        }
+    }
 }
 // Подключаем layout
 print(include_template('layout.php', [

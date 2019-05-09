@@ -16,7 +16,7 @@ if ($link == false) {
 } else {
     //print("Соединение установлено");
     // Запрос на получение списка категорий
-    $sql = "SELECT id, name, symbol FROM categories";
+    $sql = "SELECT name, symbol FROM categories";
 
     // Выполняем запрос и получаем резуьтат
     $result = mysqli_query($link, $sql);
@@ -31,7 +31,7 @@ if ($link == false) {
         print ("Ошибка подключения: " . $error);
     }
     // Запрос на показ объявлений
-    $sql = "SELECT l.id, category_id, title, path, start_price, name FROM lot l "
+    $sql = "SELECT l.id, title, path, start_price, name FROM lot l "
         . "JOIN categories c on l.category_id = c.id "
         . "WHERE user_id_win IS NULL "
         . "ORDER BY created_at DESC LIMIT 6";

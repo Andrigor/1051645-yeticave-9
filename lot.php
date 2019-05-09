@@ -23,7 +23,7 @@ mysqli_set_charset($link, "utf8");
 if ($link == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
 } else {
-    //print("Соединение установлено");
+
     // Запрос на получение списка категорий
     $sql = "SELECT name FROM categories";
 
@@ -53,7 +53,7 @@ if ($link == false) {
             die();
         }
         // Передаем в основной шаблон результат выполнения
-        $content = include_template('lottemp.php', ['categories' => $categories, 'advert' => $advert]);
+        $content = include_template('lot.php', ['categories' => $categories, 'advert' => $advert]);
     } else {
         $error = mysqli_error($link);
         print ("Ошибка подключения: " . $error);

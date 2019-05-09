@@ -19,10 +19,11 @@
                 <input type="search" name="search" placeholder="Поиск лота">
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
-            <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
+            <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
 
             <nav class="user-menu">
 
+                <!-- здесь должен быть PHP код для показа меню и данных пользователя -->
                 <?php if ($is_auth == 1): ?>
                     <div class="user-menu__logged">
                         <p><?= $user_name; ?></p>
@@ -39,13 +40,11 @@
                         </li>
                     </ul>
                 <?php endif; ?>
-                <!-- здесь должен быть PHP код для показа меню и данных пользователя -->
 
             </nav>
         </div>
     </header>
-
-    <main class="container"><?= $content ?></main>
+    <?= $content ?>
 </div>
 
 <footer class="main-footer">
@@ -117,7 +116,5 @@
     </div>
 </footer>
 
-<script src="flatpickr.js"></script>
-<script src="script.js"></script>
 </body>
 </html>

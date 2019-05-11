@@ -17,7 +17,7 @@ if ($link == false) {
 } else {
 
     // Запрос на получение списка категорий
-    $sql = "SELECT name FROM categories";
+    $sql = "SELECT id, name FROM categories";
 
     // Выполняем запрос и получаем резуьтат
     $result = mysqli_query($link, $sql);
@@ -31,10 +31,40 @@ if ($link == false) {
         $error = mysqli_error($link);
         print ("Ошибка подключения: " . $error);
     }
-};
-// Передаем в основной шаблон результат выполнения
-$content = include_template('add.php', ['categories' => $categories]);
+    // Передаем в основной шаблон результат выполнения
+    $content = include_template('add.php', ['categories' => $categories]);
 
+    // Проверяем получение данных из формы
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $lot = $_POST['lot'];
+
+        // Прописываем новое имя и путь для сохраняемого файла
+        $filename = uniqid() . '.jpg';
+        $lot['path'] = 'uploads/' . $filename;
+
+        // Перемещаем картинку в папку uploads
+        move_uploaded_file($_FILES['lot_img']['tmp_name'], 'uploads/' . $filename);
+
+        // Делаем запрос на добавление лота через подготовленные выражения
+        $sql = "INSERT INTO lot (category_id, user_id, created_at, title, description, path, start_price, closed_at, step) "
+            . "VALUES (?, 1, NOW(), ?, ?, ?, ?, ?, ?)";
+
+        $stmt = db_get_prepare_stmt($link, $sql, [$lot['category'], $lot['title'], $lot['description'], $lot['path'],
+            $lot['start_price'], $lot['closed_at'], $lot['step']]);
+
+        $res = mysqli_stmt_execute($stmt);
+
+        // Переходим на страницу лота если всё ОК
+        if ($res) {
+            $lot_id = mysqli_insert_id($link);
+
+            header("Location: lot.php?id=" . $lot_id);
+        } else {
+            $error = mysqli_error($link);
+            print ("Ошибка подключения: " . $error);
+        }
+    }
+}
 // Подключаем layout
 print(include_template('layout.php', [
     'title' => $title,

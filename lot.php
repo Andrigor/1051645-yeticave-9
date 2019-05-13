@@ -3,7 +3,7 @@
 date_default_timezone_set('Europe/Moscow');
 $is_auth = rand(0, 1);
 $user_name = 'Igor'; // укажите здесь ваше имя
-$title = 'Главная';
+$title_layout = 'Главная';
 
 require_once('functions.php');
 
@@ -23,7 +23,7 @@ mysqli_set_charset($link, "utf8");
 if ($link == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
 } else {
-    //print("Соединение установлено");
+
     // Запрос на получение списка категорий
     $sql = "SELECT name FROM categories";
 
@@ -53,7 +53,7 @@ if ($link == false) {
             die();
         }
         // Передаем в основной шаблон результат выполнения
-        $content = include_template('lottemp.php', ['categories' => $categories, 'advert' => $advert]);
+        $content = include_template('lot.php', ['categories' => $categories, 'advert' => $advert]);
     } else {
         $error = mysqli_error($link);
         print ("Ошибка подключения: " . $error);
@@ -61,7 +61,7 @@ if ($link == false) {
 };
 // Подключаем layout
 print(include_template('layout.php', [
-    'title' => $title,
+    'title_layout' => $title_layout,
     'content' => $content,
     'is_auth' => $is_auth,
     'user_name' => $user_name,

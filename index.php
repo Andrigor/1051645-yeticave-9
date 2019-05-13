@@ -2,7 +2,7 @@
 date_default_timezone_set('Europe/Moscow');
 $is_auth = rand(0, 1);
 $user_name = 'Igor'; // укажите здесь ваше имя
-$title = 'Главная';
+$title_layout = 'Главная';
 
 require_once('functions.php');
 
@@ -49,7 +49,7 @@ if ($link == false) {
 }
 // Подключаем layout
 print(include_template('layout.php', [
-    'title' => $title,
+    'title_layout' => $title_layout,
     'content' => $content,
     'is_auth' => $is_auth,
     'user_name' => $user_name,

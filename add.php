@@ -53,10 +53,10 @@ if ($link == false) {
         if (!is_date_valid($_POST['closed_at'])) {
             $errors['closed_at'] = 'Неправильный формат даты';
         }
-        if (!filter_var($_POST['start_price'], FILTER_VALIDATE_EMAIL) && $_POST['start_price'] <= 0) {
+        if (!filter_var($_POST['start_price'], FILTER_VALIDATE_INT) && $_POST['start_price'] <= 0) {
             $errors['start_price'] = 'Введите числовое значение больше нуля';
         }
-        if (!filter_var($_POST['step'], FILTER_VALIDATE_EMAIL) && $_POST['step'] <= 0) {
+        if (!filter_var($_POST['step'], FILTER_VALIDATE_INT) && $_POST['step'] <= 0) {
             $errors['step'] = 'Введите числовое значение больше нуля';
         }
 

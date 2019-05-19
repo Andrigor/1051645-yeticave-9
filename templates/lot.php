@@ -14,27 +14,38 @@
             <div class="lot-item__content">
                 <div class="lot-item__left">
                     <div class="lot-item__image">
-                        <img src="<?= htmlspecialchars($item['path']); ?>" width="730" height="548" alt="Сноуборд">
+                        <img src="<?= $item['path']; ?>" width="730" height="548" alt="Сноуборд">
                     </div>
-                    <p class="lot-item__category">Категория: <span><?= htmlspecialchars($item['name']); ?></span>
+                    <p class="lot-item__category">Категория: <span><?= $item['name']; ?></span>
                     </p>
-                    <p class="lot-item__description"><?= htmlspecialchars($item['description']); ?></p>
+                    <p class="lot-item__description"><?= $item['description']; ?></p>
                 </div>
                 <div class="lot-item__right">
-                    <div class="lot-item__state">
-                        <div class="lot-item__timer timer <?php if (Show_time() <= 1): ?>timer--finishing <?php endif ?>">
-                            <?= Show_time() ?>
-                        </div>
-                        <div class="lot-item__cost-state">
-                            <div class="lot-item__rate">
-                                <span class="lot-item__amount">Текущая цена</span>
-                                <span class="lot-item__cost"><?= format_price(htmlspecialchars($item['start_price'])); ?></span>
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <div class="lot-item__state">
+                            <div class="lot-item__timer timer <?php if (Show_time() <= 1): ?>timer--finishing <?php endif ?>">
+                                <?= Show_time() ?>
                             </div>
-                            <div class="lot-item__min-cost">
-                                Мин. ставка <span>12 000 р</span>
+                            <div class="lot-item__cost-state">
+                                <div class="lot-item__rate">
+                                    <span class="lot-item__amount">Текущая цена</span>
+                                    <span class="lot-item__cost"><?= format_price($item['start_price']); ?></span>
+                                </div>
+                                <div class="lot-item__min-cost">
+                                    Мин. ставка <span><?= ($item['start_price'] + $item['step']); ?></span>
+                                </div>
                             </div>
+                            <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post"
+                                  autocomplete="off">
+                                <p class="lot-item__form-item form__item form__item--invalid">
+                                    <label for="cost">Ваша ставка</label>
+                                    <input id="cost" type="text" name="cost" placeholder="12 000">
+                                    <span class="form__error">Введите наименование лота</span>
+                                </p>
+                                <button type="submit" class="button">Сделать ставку</button>
+                            </form>
                         </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         <?php endforeach; ?>
